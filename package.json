@@ -1,20 +1,93 @@
 {
-  "name": "my-app",
+  "name": "electron-react",
   "version": "0.1.0",
+  "author": {
+    "name": "zaf",
+    "email": "2353536563@qq.com"
+  },
+  "main": "main.js",
   "private": true,
+  "repository": "https://github.com/stogefei/reactElectron",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "axios": "^0.19.2",
+    "electron-is-dev": "^1.1.0",
+    "electron-store": "^5.1.0",
+    "qiniu": "^7.3.0",
+    "bootstrap": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "concurrently \"wait-on http://localhost:3000 && electron .\" \"cross-env BROWSER=none react-scripts start\"",
+    "onlyEle": "nodemon --watch main.js --watch src/menuTemplate.js --exec \"electron .\"",
     "build": "react-scripts build",
+    "buildMain": "webpack",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pack": "electron-builder --dir",
+    "prepack": "npm run build && npm run buildMain",
+    "dist": "cross-env TOKEN=qweqwescasd electron-builder",
+    "predist": "npm run build && npm run buildMain",
+    "release": "electron-builder",
+    "prerelease": "npm run build && npm run buildMain"
+  },
+  "homepage": "./",
+  "build": {
+    "appId": "reactElectron",
+    "productName": "reactMarkDwon",
+    "copyright": "Copyright © 2019 ${author}", 
+    "extends": null,
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "settings/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "extraMetadata": {
+      "main": "./build/main.js"
+    },
+    "publish": ["github"],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "background": "assets/appdmg.png",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "win": {
+      "target": [
+        "msi", "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "${productName}-Web-Setup-${version}.${ext}",
+      "publisherName": "zaf"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "perMachine": false
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +103,29 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-brands-svg-icons": "^5.12.1",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/react-fontawesome": "^0.1.8",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "classnames": "^2.2.6",
+    "concurrently": "^5.1.0",
+    "cross-env": "^7.0.0",
+    "devtron": "^1.4.0",
+    "electron": "^8.0.0",
+    "electron-builder": "^22.3.2",
+    "wait-on": "^4.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.1",
+    "react-simplemde-editor": "^4.1.0",
+    "node-sass": "^4.13.1",
+    "nodemon": "^2.0.2",
+    "normalize.css": "^8.0.1",
+    "uuid": "^3.4.0"
   }
 }
